@@ -1,0 +1,45 @@
+Tk-Mirror version 0.01
+======================
+
+Perl extension for a graphic user interface to update 
+local or remote directories in both directions.
+It can compare local-directories and remote-directories with each other.
+In order to find which files where in which directory available.
+You can down or upload the missing and modified files.
+For example websites, documentations or developmentstuff which ones were
+uploaded, changed or worked on locally. 
+It is not developt for mirroring large archivs.
+But there are not in principle any limits.
+
+INSTALLATION
+
+To install this module type the following:
+
+   perl Makefile.PL
+   make
+   make test
+   make install
+
+DEPENDENCIES
+
+This module requires these other modules and libraries:
+
+ Tk
+ Tk::Frame
+ Net::MirrorDir
+ Net::UploadMirror
+ Net::DownloadMirror
+ Net::FTP
+ Storable
+
+COPYRIGHT AND LICENCE
+
+Copyright (C) 2006 by Torsten Knorr
+ knorrcpan@tiscali.de
+ http://www.planet-interkom.de/t.knorr/index.html
+
+This library is free software; you can redistribute it and/or modify
+it under the same terms as Perl itself, either Perl version 5.9.2 or,
+at your option, any later version of Perl 5 you may have available.
+
+

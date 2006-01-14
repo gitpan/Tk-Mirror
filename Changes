@@ -1,0 +1,6 @@
+Revision history for Perl extension Tk::Mirror.
+
+0.01  Mon Jan  9 18:49:21 2006
+	- original version; created by h2xs 1.23 with options
+		-XAn Tk::Mirror
+
