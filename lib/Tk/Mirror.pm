@@ -13,7 +13,7 @@
  use Storable;
 #-------------------------------------------------
  @Tk::Mirror::ISA = qw(Tk::Frame);
- $Tk::Mirror::VERSION = '0.01';
+ $Tk::Mirror::VERSION = '0.02';
 #-------------------------------------------------
  Construct Tk::Widget "Mirror";
 #-------------------------------------------------
@@ -767,7 +767,7 @@ Maybe you'll find some. Let me know.
 
 =head1 AUTHOR
 
-Torsten Knorr, E<lt>knorrcpan@tiscali.deE<gt>
+Torsten Knorr, E<lt>torstenknorr@tiscali.deE<gt>
 
 =head1 COPYRIGHT AND LICENSE
 
@@ -779,6 +779,8 @@ at your option, any later version of Perl 5 you may have available.
 
 
 =cut
+
+
 
 
 
