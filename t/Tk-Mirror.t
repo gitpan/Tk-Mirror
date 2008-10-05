@@ -5,7 +5,7 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
- use Test::More tests => 119;
+ use Test::More tests => 146;
 # use Test::More "no_plan";
 BEGIN { use_ok('Tk::Mirror') };
 
@@ -13,28 +13,105 @@ BEGIN { use_ok('Tk::Mirror') };
 
 # Insert your test code below, the Test::More module is use()ed here so read
 # its man page ( perldoc Test::More ) for help writing this test script.
- use_ok("Tk");
+#-------------------------------------------------
+ use_ok('Tk');
+#-------------------------------------------------
  ok(my $mw = MainWindow->new());
- can_ok($mw, "title");
- $mw->title("Mirror Directories");
- can_ok($mw, "geometry");
- $mw->geometry("+5+5");
- can_ok($mw, "Mirror");
+ $mw->title('Mirror Directories');
+ $mw->geometry('+5+5');
+ can_ok($mw, 'Mirror');
  ok(my $mirror = $mw->Mirror(
- 	-localdir		=> "TestA",
- 	-remotedir	=> "TestD",
- 	-usr		=> 'my_ftp@username.de',
- 	-ftpserver	=> "ftp.server.de",
- 	-pass		=> "my_password",
+ 	-localdir		=> 'TestA',
+ 	-remotedir	=> '/authors/id/K/KN/KNORR/Remote/TestA',
+ 	-user		=> 'anonymous',
+ 	-ftpserver	=> 'www.cpan.org',
+ 	-pass		=> 'create-soft@tiscali.de',
+	-exclusions	=> ['CHECKSUMS'],
+ 	-overwrite	=> 'older'
  	));
- isa_ok($mirror, "Tk::Mirror");
- can_ok($mirror, "grid");
+#-------------------------------------------------
+# Net::MirrorDir Methods
+ isa_ok($mirror->{upload}, 'Net::MirrorDir');
+ isa_ok($mirror->{download}, 'Net::MirrorDir');
+ for(qw/
+ 	_Init
+ 	Connect
+ 	IsConnection
+ 	Quit
+ 	ReadLocalDir
+ 	ReadRemoteDir
+ 	LocalNotInRemote
+ 	RemoteNotInLocal
+ 	AUTOLOAD
+ 	DESTROY
+ 	/)
+ 	{
+ 	can_ok($mirror->{upload}, $_);
+ 	can_ok($mirror->{download}, $_);
+ 	}
+#-------------------------------------------------
+# Net::UploadMirror methods
+ isa_ok($mirror->{upload}, 'Net::UploadMirror');
+ can_ok($mirror->{upload}, $_)
+ 	for(qw/
+ 		_Init
+ 		Upload
+ 		CheckIfModified
+ 		UpdateLastModified
+ 		StoreFiles
+ 		MakeDirs
+ 		DeleteFiles
+ 		RemoveDirs
+ 		CleanUp
+ 		RtoL
+ 		LtoR
+ 		/);
+#-------------------------------------------------
+# Net::DownloadMirror methods
+ isa_ok($mirror->{download}, 'Net::DownloadMirror');
+ can_ok($mirror->{download}, $_)
+ 	for(qw/
+ 		_Init
+ 		Download
+ 		CheckIfModified
+ 		UpdateLastModified
+ 		StoreFiles
+ 		MakeDirs
+ 		DeleteFiles
+ 		RemoveDirs
+ 		CleanUp
+ 		LtoR
+ 		RtoL
+ 		/);
+#-------------------------------------------------
+# Tk::Mirror methods
+ isa_ok($mirror, 'Tk::Frame');
+ isa_ok($mirror, 'Tk::Mirror');
+ can_ok($mirror, $_)
+ 	for(qw/
+ 		new		GetChilds
+ 		Populate		CompareDirectories
+ 		Label		Download
+ 		BrowseEntry	Upload
+ 		Entry		StoreParams
+ 		Dialog		SetParams
+ 		Scrolled		UpdateAccess
+ 		Button		InsertLocalTree
+ 		Advertise	InsertRemoteTree
+ 		Delegates	InsertProperties
+ 		grid		InsertRemoteModifiedTimes
+ 		Subwidget	InsertLocalModifiedTimes
+ 				InsertStoredValues
+ 				InsertPaths	
+ 				DeletePaths
+ 				DeleteProperties
+				DESTROY	
+ 		/);
+#-------------------------------------------------
  ok($mirror->grid());
- can_ok($mirror, "Subwidget");
- can_ok($mirror, "GetChilds");
- ok(my $ref_h_childs = $mirror->GetChilds());
+ ok(my $rh_childs = $mirror->GetChilds());
  my $sub_widget;
- for(keys(%{$ref_h_childs}))
+ for(keys(%{$rh_childs}))
  	{
 	ok($sub_widget = $mirror->Subwidget($_));
  	can_ok($sub_widget, "configure"); 
@@ -56,7 +133,7 @@ BEGIN { use_ok('Tk::Mirror') };
  		);
  	}
  for(qw/
- 	bEntryUsr
+ 	bEntryUser
  	EntryPass
  	bEntryFtpServer
  	bEntryLocalDir
@@ -69,90 +146,26 @@ BEGIN { use_ok('Tk::Mirror') };
  		-background	=> "#FFFFFF",
  		);
  	}
- can_ok($mirror, "CompareDirectories");
- can_ok($mirror, "UpdateLocalFromRemote");
- can_ok($mirror, "UpdateRemoteFromLocal");
-# thies tests need a network connection and a ftp-useraccount
-# ok($mirror->CompareDirectories());
-# ok($mirror->UpdateLocalFromRemote());
-# ok($mirror->UpdateRemoteFromLocal());
- can_ok($mirror, "CheckEntryValues");
- ok($mirror->CheckEntryValues());
- can_ok($mirror, "InsertLocalTree");
- can_ok($mirror, "InsertRemoteTree");
- can_ok($mirror, "InsertLocalModified");
- can_ok($mirror, "InsertRemoteModified");
- can_ok($mirror, "UpdateAccess");
- ok($mirror->UpdateAccess("localdir", undef, "Homepage"));
- can_ok($mirror, "StoreNewAccess");
- ok($mirror->StoreNewAccess());
- can_ok($mirror, "InsertStoredValues");
- ok($mirror->InsertStoredValues());
- isa_ok($mirror->{upload}, "Net::MirrorDir");
- isa_ok($mirror->{download}, "Net::MirrorDir");
- isa_ok($mirror->{upload}, "Net::UploadMirror");
- isa_ok($mirror->{download}, "Net::DownloadMirror");
- for(qw/
- 	new
- 	ReadLocalDir
- 	ReadRemoteDir
- 	Connect
- 	Quit
- 	RemoteNotInLocal
- 	LocalNotInRemote
- 	CheckIfModified
- 	StoreFiles
- 	DeleteFiles
- 	MakeDirs
- 	RemoveDirs
- 	Update
- 	/)
+#-------------------------------------------------
+ SKIP:
  	{
- 	can_ok($mirror->{upload}, $_);
- 	can_ok($mirror->{download}, $_);
+	skip("no tests with www.cpan.org\n", 9) unless($mirror->{download}->Connect());
+ 	ok($mirror->CompareDirectories());
+	ok($mirror->Download());
+ 	ok(-f $_) for(
+ 		'TestA/TestB/TestC/Dir1/test1.txt',
+ 		'TestA/TestB/TestC/Dir2/test2.txt',
+ 		'TestA/TestB/TestC/Dir2/test2.subset',
+ 		'TestA/TestB/TestC/Dir3/test3.txt',
+ 		'TestA/TestB/TestC/Dir4/test4.txt',
+ 		'TestA/TestB/TestC/Dir4/test4.exclusions',
+ 		'TestA/TestB/TestC/Dir5/test5.txt'
+ 		);
+# can only be tested with a valid FTP-Access
+	# ok($mirror->Upload());
  	}
- ok(($mirror->{ref_h_local_files}, $mirror->{ref_h_local_dirs}) = 
- 	$mirror->{upload}->ReadLocalDir());
- ok($mirror->InsertLocalTree());
- ok(($mirror->{ref_h_remote_files}, $mirror->{ref_h_remote_dirs}) =
- 	$mirror->{download}->ReadLocalDir());
- ok($mirror->InsertRemoteTree());
- $mirror->{ref_a_modified_local_files}[0] = "TestA/TestB/TestC/Dir2/test2.txt";
- ok($mirror->InsertLocalModified());
- $mirror->{ref_a_modified_remote_files}[0] = "TestA/TestB/TestC/Dir4/test4.txt";
- ok($mirror->InsertRemoteModified());
- can_ok($mirror, "UpdateUsr");
- ok($mirror->UpdateUsr());
-
- $mirror->{para}{usr} = undef;
- is($mirror->UpdateUsr(), 0, "wrong user input\n");
- $mirror->{para}{usr} = "my_ftp_username";
-
- $mirror->{para}{ftpserver} = undef;
- is($mirror->UpdateUsr(), 0, "wrong ftp-server input\n");
- $mirror->{para}{ftpserver} = "my_ftp_server";
-
- $mirror->{para}{pass} = undef;
- is($mirror->UpdateUsr(), 0, "wrong password input\n");
- $mirror->{para}{pass} = "xyz";
-
- $mirror->{para}{localdir} = "WrongDir";
- is($mirror->UpdateUsr(), 0, "wrong dir should not exists\n");
- $mirror->{para}{localdir} = "TestA";
- is($mirror->UpdateUsr(), 1, "TestA should exists\n");
-
- $mirror->{para}{remotedir} = undef;
- is($mirror->UpdateUsr(), 0, "wrong remote direction input\n");
- $mirror->{para}{remotedir} = '/';
- is($mirror->UpdateUsr(), 1, "something is wrong with the user input\n");
-
- can_ok($mw, "after");
- ok($mw->after(3000, sub { $mw->destroy(); }));
+#-------------------------------------------------
+ ok($mw->after(5000, sub { $mw->destroy(); }));
  MainLoop(); 
 #-------------------------------------------------
-
-
-
-
-
 

@@ -1,16 +1,13 @@
 # http://module-build.sourceforge.net/META-spec.html
 #XXXXXXX This is a prototype!!!  It will change in the future!!! XXXXX#
 name:         Tk-Mirror
-version:      0.02
+version:      0.01
 version_from: lib/Tk/Mirror.pm
 installdirs:  site
 requires:
-    Net::DownloadMirror:           0
-    Net::MirrorDir:                0
-    Net::UploadMirror:             0
-    Storable:                      0
-    Tk:                            0
-    Tk::Frame:                     0
+    Net::DownloadMirror:           Tk
+    Net::MirrorDir:                Net::UploadMirror
+    Tk::Frame:                     Storable
 
 distribution_type: module
 generated_by: ExtUtils::MakeMaker version 6.25
