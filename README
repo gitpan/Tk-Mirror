@@ -1,4 +1,4 @@
-Tk-Mirror version 0.03
+Tk-Mirror version 0.04
 ======================
 
 Perl extension for a graphic user interface to up- or download 
@@ -42,4 +42,5 @@ COPYRIGHT AND LICENCE
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.9.2 or,
 at your option, any later version of Perl 5 you may have available.
+
 

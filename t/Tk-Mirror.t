@@ -5,7 +5,7 @@
 
 # change 'tests => 1' to 'tests => last_test_to_print';
 
- use Test::More tests => 146;
+ use Test::More tests => 144;
 # use Test::More "no_plan";
 BEGIN { use_ok('Tk::Mirror') };
 
@@ -16,7 +16,12 @@ BEGIN { use_ok('Tk::Mirror') };
 #-------------------------------------------------
  use_ok('Tk');
 #-------------------------------------------------
- ok(my $mw = MainWindow->new());
+ my $mw	= MainWindow->new();
+#-------------------------------------------------
+ SKIP:
+ {
+ skip("no tests without a valid screen\n", 142) unless($mw->isa('MainWindow'));
+#-------------------------------------------------
  $mw->title('Mirror Directories');
  $mw->geometry('+5+5');
  can_ok($mw, 'Mirror');
@@ -147,9 +152,7 @@ BEGIN { use_ok('Tk::Mirror') };
  		);
  	}
 #-------------------------------------------------
- SKIP:
- 	{
-	skip("no tests with www.cpan.org\n", 9) unless($mirror->{download}->Connect());
+ skip("no tests with www.cpan.org\n", 9) unless($mirror->{download}->Connect());
  	ok($mirror->CompareDirectories());
 	ok($mirror->Download());
  	ok(-f $_) for(
@@ -163,9 +166,7 @@ BEGIN { use_ok('Tk::Mirror') };
  		);
 # can only be tested with a valid FTP-Access
 	# ok($mirror->Upload());
- 	}
 #-------------------------------------------------
- ok($mw->after(5000, sub { $mw->destroy(); }));
- MainLoop(); 
+ $mw->destroy();
+ }
 #-------------------------------------------------
-

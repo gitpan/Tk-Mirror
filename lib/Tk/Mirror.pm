@@ -12,7 +12,7 @@
  use Storable;
 #-------------------------------------------------
  @Tk::Mirror::ISA = qw(Tk::Frame);
- $Tk::Mirror::VERSION = '0.03';
+ $Tk::Mirror::VERSION = '0.04';
 #-------------------------------------------------
  Construct Tk::Widget 'Mirror';
 #-------------------------------------------------
@@ -1038,4 +1038,5 @@ it under the same terms as Perl itself, either Perl version 5.9.2 or,
 at your option, any later version of Perl 5 you may have available.
 
 =cut
+
 
