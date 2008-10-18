@@ -1,5 +1,8 @@
 Revision history for Perl extension Tk::Mirror.
 
+0.05 Sat Oct 18 11:57:41 2008
+ 	- attempt to catch the error "couldn't connect to display" with eval
+
 0.04 Sat Oct 11 17:38:41 2008
  	- no tests without a valid screen
 
@@ -19,4 +22,5 @@ Revision history for Perl extension Tk::Mirror.
 0.01  Mon Jan  9 18:49:21 2006
 	- original version; created by h2xs 1.23 with options
 		-XAn Tk::Mirror
+
 
