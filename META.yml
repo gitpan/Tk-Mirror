@@ -2,7 +2,7 @@
 meta-spec:
     url: http://module-build.sourceforge.net/META-spec.html
 name:         Tk-Mirror
-version:      0.05
+version:      0.06
 abstract: Perl extension for a graphic user interface to up- or download local and remote directories
 author:
    - Torsten Knorr <create-soft@tiscali.de>
@@ -18,5 +18,6 @@ requires:
     Storable: 0
 distribution_type: module
 generated_by: ExtUtils::MakeMaker version 6.25
+
 
 

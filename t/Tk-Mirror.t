@@ -21,7 +21,8 @@ BEGIN { use_ok('Tk::Mirror') };
 #-------------------------------------------------
  SKIP:
  {
- skip("no tests without a valid screen\n", 142) unless($mw->isa('MainWindow'));
+ skip("no tests without a valid screen\n", 142) 
+ 	unless(ref($mw) && $mw->isa('MainWindow'));
 #-------------------------------------------------
  $mw->title('Mirror Directories');
  $mw->geometry('+5+5');
@@ -171,4 +172,5 @@ BEGIN { use_ok('Tk::Mirror') };
  $mw->destroy();
  }
 #-------------------------------------------------
+
 
